@@ -1,4 +1,14 @@
 <?php
+/**
+ * @var string $success_msg
+ * @var string $error_msg
+ * @var bool $edit_mode
+ * @var array $edit_pc
+ * @var array $danhsach_nv
+ * @var array $danhsach_da
+ * @var array $danhsach_pc
+ * @var string $search_keyword
+ */
 require_once __DIR__ . '/../header.php';
 ?>
 <link rel="stylesheet" href="App/Views/css/style.css">
