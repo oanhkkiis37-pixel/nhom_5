@@ -1,0 +1,201 @@
+/* style.css - File CSS chung cho toàn bộ hệ thống */
+* { box-sizing: border-box; }
+
+body { 
+    margin: 0; 
+    font-family: "Times New Roman", Times, serif; 
+    background: #f5f6fa; 
+}
+
+/* Header thanh điều hướng */
+.header { 
+    background: #007bff; 
+    color: white; 
+    padding: 15px 30px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.header a { 
+    color: white; 
+    text-decoration: none; 
+    background: #6c757d; 
+    padding: 6px 12px; 
+    border-radius: 4px; 
+}
+
+/* Bố cục khung chứa */
+.container { 
+    max-width: 1200px; 
+    margin: 30px auto; 
+    padding: 0 20px; 
+}
+
+.card { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+    margin-bottom: 25px;
+    width: 105%; 
+}
+
+/* Bảng dữ liệu */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 15px; 
+    font-size: 15px; 
+}
+
+th, td { 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    text-align: left; 
+}
+
+th { 
+    background: #007bff; 
+    color: white; 
+}
+
+/* Biểu mẫu và Ô nhập liệu */
+.form-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 15px; 
+}
+
+.form-group { 
+    margin-bottom: 15px; 
+}
+
+label { 
+    display: block; 
+    margin-bottom: 5px; 
+    font-weight: bold; 
+}
+
+input[type="text"], 
+input[type="date"], 
+input[type="password"], 
+input[type="number"], 
+select { 
+    width: 100%; 
+    padding: 8px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    font-family: "Times New Roman", Times, serif; 
+}
+
+/* Các nút bấm hành động */
+button { 
+    background: #28a745; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-family: "Times New Roman", Times, serif; 
+    font-size: 15px; 
+}
+
+button:hover { 
+    background: #218838; 
+}
+
+.btn-search { 
+    background: #17a2b8; 
+}
+
+.btn-search:hover { 
+    background: #138496; 
+}
+
+/* Định dạng chung cho nút Thao tác trong bảng */
+.btn-edit, .btn-delete {
+    padding: 5px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white !important; /* Đảm bảo chữ luôn có màu trắng nổi bật trên nền đỏ */
+}
+
+.btn-delete:hover {
+    background-color: #b02a37;
+}
+
+/* Tiện ích thông báo và tìm kiếm */
+.search-box { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 15px; 
+}
+
+.alert-success { 
+    color: green; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+}
+
+.alert-danger { 
+    color: red; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+}
+/* Tùy chỉnh chung cho thẻ select */
+select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    appearance: none; /* Ẩn mũi tên mặc định của trình duyệt để tạo kiểu riêng nếu muốn */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3polyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+/* Hiệu ứng khi bấm hoặc hover vào select */
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* Tùy chỉnh các option bên trong */
+select option {
+    padding: 10px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 15px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Hiệu ứng khi hover vào option (hỗ trợ trên một số trình duyệt) */
+select option:hover {
+    background-color: #007bff;
+    color: white;
+}
