@@ -1,19 +1,17 @@
 <?php
-require_once __DIR__ . '/../Models/DuAnModel.php';
-
 class DuAnController {
-    private $duAnModel;
+    private $duanModel;
 
     public function __construct($pdo) {
-        // Kiểm tra đăng nhập (nếu index.php chưa kiểm tra chung)
+        $this->duanModel = new DuAnModel($pdo);
+    }
+
+    public function index() {
         if (!isset($_SESSION["username"])) {
             header("Location: login.php");
             exit();
         }
-        $this->duAnModel = new DuAnModel($pdo);
-    }
 
-    public function index() {
         $success_msg = "";
         $error_msg = "";
         $edit_mode = false;
@@ -26,7 +24,7 @@ class DuAnController {
             'status' => 'Planning'
         ];
 
-        // Xử lý dữ liệu POST (Thêm hoặc Sửa)
+        // Xử lý POST (Thêm / Sửa)
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $action = $_POST["action"] ?? "";
 
@@ -40,7 +38,7 @@ class DuAnController {
                 ];
 
                 if (!empty($data['tenduan'])) {
-                    if ($this->duAnModel->add($data)) {
+                    if ($this->duanModel->add($data)) {
                         $success_msg = "Thêm dự án thành công!";
                     } else {
                         $error_msg = "Lỗi khi thêm dự án!";
@@ -59,7 +57,7 @@ class DuAnController {
                 ];
 
                 if (!empty($data['tenduan']) && $data['maduan'] > 0) {
-                    if ($this->duAnModel->update($data)) {
+                    if ($this->duanModel->update($data)) {
                         $success_msg = "Cập nhật dự án thành công!";
                     } else {
                         $error_msg = "Lỗi khi cập nhật dự án!";
@@ -70,10 +68,10 @@ class DuAnController {
             }
         }
 
-        // Xử lý Xóa dự án
+        // Xử lý Xóa
         if (isset($_GET["delete"])) {
             $maduan = intval($_GET["delete"]);
-            if ($this->duAnModel->delete($maduan)) {
+            if ($this->duanModel->delete($maduan)) {
                 header("Location: index.php?controller=DuAn&action=index");
                 exit();
             } else {
@@ -81,18 +79,18 @@ class DuAnController {
             }
         }
 
-        // Lấy dữ liệu khi bấm nút Sửa
+        // Lấy dữ liệu Sửa
         if (isset($_GET["edit"])) {
             $edit_mode = true;
             $maduan = intval($_GET["edit"]);
-            $edit_da = $this->duAnModel->getById($maduan);
+            $edit_da = $this->duanModel->getById($maduan);
         }
 
-        // Tìm kiếm và lấy danh sách dự án
+        // Tìm kiếm và lấy danh sách
         $search_keyword = trim($_GET["search"] ?? "");
-        $danhsach_da = $this->duAnModel->getAll($search_keyword);
+        $danhsach_da = $this->duanModel->getAll($search_keyword);
 
-        // Nạp View hiển thị giao diện
+        // Gọi View hiển thị
         require_once __DIR__ . '/../Views/duan.php';
     }
 }
