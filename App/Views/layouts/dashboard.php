@@ -1,5 +1,15 @@
 <?php
 require_once __DIR__ . '/../header.php';
+/** @var string $hovaten */
+/** @var string $chucvu */
+/** @var string $role */
+/** @var string $search_da */
+/** @var array $danhsach_phancong */
+/** @var string $search_cc */
+/** @var array $danhsach_chamcong */
+/** @var float $luongcoban */
+?>
+require_once __DIR__ . '/../header.php';
 ?>
 <link rel="stylesheet" href="App/Views/css/dashboard.css">
 

@@ -8,9 +8,8 @@
 /** @var string $search_keyword */
 /** @var array $danhsach_nv */
 ?>
-<link rel="stylesheet" href="App/Views/css/style.css">
-// App/Views/layouts/nhanvien.php
-?>
+
+
 <link rel="stylesheet" href="App/Views/css/style.css">
 
 <div class="header">

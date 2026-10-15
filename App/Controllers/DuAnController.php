@@ -93,7 +93,7 @@ class DuAnController {
 
         // Gọi View hiển thị
         require_once __DIR__ . '/../Views/header.php';
-        require_once __DIR__ . '/../Views/layouts/nhanvien.php';
+        require_once __DIR__ . '/../Views/layouts/duan.php';
         require_once __DIR__ . '/../Views/footer.php';
     }
 }
