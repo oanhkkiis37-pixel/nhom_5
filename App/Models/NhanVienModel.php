@@ -3,10 +3,17 @@
 
 class NhanVienModel {
     private $pdo;
+  
+   
 
     public function __construct() {
         $database = new db();
         $this->pdo = $database->pdo;
+    } 
+     public function getByUsername($username) {
+        $stmt = $this->pdo->prepare("SELECT * FROM nhanvien WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getAll($keyword = "") {

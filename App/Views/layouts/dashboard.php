@@ -8,8 +8,8 @@ require_once __DIR__ . '/../header.php';
 /** @var string $search_cc */
 /** @var array $danhsach_chamcong */
 /** @var float $luongcoban */
-?>
-require_once __DIR__ . '/../header.php';
+
+
 ?>
 <link rel="stylesheet" href="App/Views/css/dashboard.css">
 

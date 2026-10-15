@@ -57,9 +57,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Lương cơ bản:</label>
-                    <input type="number" step="1000000" name="luongcoban" value="<?php echo htmlspecialchars($edit_nv['luongcoban'] ?? ''); ?>">
-                </div>
+                   <label>Lương cơ bản (VNĐ):</label>
+    <input type="number" name="luongcoban" min="0" step="1000" value="<?php echo htmlspecialchars($edit_nv['luongcoban'] ?? ''); ?>" placeholder="Ví dụ: 10000000" required>
+</div>
 
                 <div class="form-group">
                     <label>Phòng ban:</label>
