@@ -2,8 +2,14 @@
 class PhongBanModel {
     private $pdo;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct($pdo = null) {
+        if ($pdo !== null) {
+            $this->pdo = $pdo;
+        } else {
+            // Tự động kết nối nếu không truyền $pdo
+            $database = new db();
+            $this->pdo = $database->pdo;
+        }
     }
 
     public function getAll() {

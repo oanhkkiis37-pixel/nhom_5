@@ -4,9 +4,10 @@ require_once __DIR__ . '/../Models/PhongBanModel.php';
 class PhongBanController {
     private $model;
 
-    public function __construct($pdo) {
-        $this->model = new PhongBanModel($pdo);
-    }
+    public function __construct() {
+    $database = new db(); // Khởi tạo trực tiếp đối tượng chứa pdo trong model/database của bạn
+    $this->model = new PhongBanModel($database->pdo);
+}
 
     public function index() {
         // Kiểm tra đăng nhập
@@ -81,7 +82,9 @@ class PhongBanController {
         }
 
         // Gọi View để hiển thị giao diện
-        include __DIR__ . '/../../Views/phongban.php';
+     require_once __DIR__ . '/../Views/header.php';
+        require_once __DIR__ . '/../Views/layouts/phongban.php';
+        require_once __DIR__ . '/../Views/footer.php';
     }
 }
 ?>

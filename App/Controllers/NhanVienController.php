@@ -1,33 +1,31 @@
 <?php
-require_once __DIR__ . '/../Models/NhanVienModel.php';
-require_once __DIR__ . '/../Models/PhongBanModel.php';
+// App/Controllers/NhanVienController.php
 
 class NhanVienController {
-    private $nvModel;
-    private $pbModel;
-
-    public function __construct($pdo) {
-        $this->nvModel = new NhanVienModel($pdo);
-        $this->pbModel = new PhongBanModel($pdo);
-    }
-
     public function index() {
-        session_start();
-        if (!isset($_SESSION["username"])) {
-            header("Location: login.php");
+        // Kiểm tra đăng nhập và quyền Admin
+        if (!isset($_SESSION["username"]) || ($_SESSION["role"] ?? '') !== "admin") {
+            header("Location: index.php?controller=Login&action=index");
             exit();
         }
 
+        $nhanVienModel = new NhanVienModel();
         $success_msg = "";
         $error_msg = "";
         $edit_mode = false;
         $edit_nv = [
-            'manhanvien' => '', 'hovaten' => '', 'ngaysinh' => '', 
-            'sdt' => '', 'chucvu' => '', 'luongcoban' => '',
-            'maphong' => '', 'username' => '', 'password' => ''
+            'manhanvien' => '', 
+            'hovaten' => '', 
+            'ngaysinh' => '', 
+            'sdt' => '', 
+            'chucvu' => '', 
+            'luongcoban' => '',
+            'maphong' => '', 
+            'username' => '', 
+            'password' => ''
         ];
 
-        // Xử lý POST (Thêm / Sửa)
+        // Xử lý Thêm / Sửa
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $action = $_POST["action"] ?? "";
 
@@ -44,13 +42,13 @@ class NhanVienController {
                 ];
 
                 if (!empty($data['hovaten']) && !empty($data['username']) && !empty($data['password'])) {
-                    if ($this->nvModel->add($data)) {
+                    if ($nhanVienModel->add($data)) {
                         $success_msg = "Thêm nhân viên thành công!";
                     } else {
                         $error_msg = "Lỗi khi thêm nhân viên!";
                     }
                 } else {
-                    $error_msg = "Vui lòng điền đầy đủ các thông tin bắt buộc!";
+                    $error_msg = "Vui lòng điền đầy đủ các thông tin bắt buộc (Họ tên, Username, Password)!";
                 }
             } elseif ($action === "update") {
                 $data = [
@@ -66,7 +64,8 @@ class NhanVienController {
                 ];
 
                 if (!empty($data['hovaten']) && $data['manhanvien'] > 0) {
-                    if ($this->nvModel->update($data)) {
+                    $hasPassword = !empty($data['password']);
+                    if ($nhanVienModel->update($data, $hasPassword)) {
                         $success_msg = "Cập nhật nhân viên thành công!";
                     } else {
                         $error_msg = "Lỗi khi cập nhật nhân viên!";
@@ -80,27 +79,32 @@ class NhanVienController {
         // Xử lý Xóa
         if (isset($_GET["delete"])) {
             $manhanvien = intval($_GET["delete"]);
-            if ($this->nvModel->delete($manhanvien)) {
-                header("Location: index.php?controller=nhanvien");
+            if ($nhanVienModel->delete($manhanvien)) {
+                header("Location: index.php?controller=NhanVien&action=index");
                 exit();
             } else {
                 $error_msg = "Lỗi khi xóa nhân viên!";
             }
         }
 
-        // Xử lý Sửa (Lấy dữ liệu cũ đổ vào form)
+        // Xử lý Lấy dữ liệu để Sửa
         if (isset($_GET["edit"])) {
             $edit_mode = true;
             $manhanvien = intval($_GET["edit"]);
-            $edit_nv = $this->nvModel->getById($manhanvien);
+            $result = $nhanVienModel->getById($manhanvien);
+            if ($result) {
+                $edit_nv = $result;
+            }
         }
 
-        // Lấy danh sách phòng ban và nhân viên (có hỗ trợ tìm kiếm)
-        $danhsach_pb = $this->pbModel->getAll();
+        // Lấy danh sách phòng ban và danh sách nhân viên kèm tìm kiếm
+        $danhsach_pb = $nhanVienModel->getPhongBanList();
         $search_keyword = trim($_GET["search"] ?? "");
-        $danhsach_nv = $this->nvModel->getAll($search_keyword);
+        $danhsach_nv = $nhanVienModel->getAll($search_keyword);
 
-        // Gọi View và truyền dữ liệu sang
-        require_once "views/nhanvien/index.php";
+        // Nạp giao diện View qua các layout chuẩn
+        require_once __DIR__ . '/../Views/header.php';
+        require_once __DIR__ . '/../Views/layouts/nhanvien.php';
+        require_once __DIR__ . '/../Views/footer.php';
     }
 }

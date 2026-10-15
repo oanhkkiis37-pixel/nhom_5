@@ -35,7 +35,7 @@ $actionName     = isset($_GET['action']) ? $_GET['action'] : 'index';
 // 6. Kiểm tra và gọi Controller/Action tương ứng
 if (class_exists($controllerName)) {
     $controller = new $controllerName();
-    
+   
     if (method_exists($controller, $actionName)) {
         $controller->$actionName();
     } else {

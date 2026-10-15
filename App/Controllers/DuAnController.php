@@ -1,9 +1,10 @@
 <?php
 class DuAnController {
     private $duanModel;
-
-    public function __construct($pdo) {
-        $this->duanModel = new DuAnModel($pdo);
+  public function __construct() {
+    $database = new db(); // Khởi tạo trực tiếp đối tượng chứa pdo trong model/database của bạn
+    $this->duanModel = new DuAnModel($database->pdo);
+   
     }
 
     public function index() {
@@ -91,6 +92,8 @@ class DuAnController {
         $danhsach_da = $this->duanModel->getAll($search_keyword);
 
         // Gọi View hiển thị
-        require_once __DIR__ . '/../Views/duan.php';
+        require_once __DIR__ . '/../Views/header.php';
+        require_once __DIR__ . '/../Views/layouts/nhanvien.php';
+        require_once __DIR__ . '/../Views/footer.php';
     }
 }

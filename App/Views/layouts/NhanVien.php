@@ -1,40 +1,36 @@
 <?php
-/** @var array $edit_nv */
-/** @var bool $edit_mode */
-/** @var array $danhsach_nv */
-/** @var array $danhsach_pb */
-/** @var string $search_keyword */
+
 /** @var string $success_msg */
 /** @var string $error_msg */
+/** @var bool $edit_mode */
+/** @var array $edit_nv */
+/** @var array $danhsach_pb */
+/** @var string $search_keyword */
+/** @var array $danhsach_nv */
 ?>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Nhân viên</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<link rel="stylesheet" href="App/Views/css/style.css">
+// App/Views/layouts/nhanvien.php
+?>
+<link rel="stylesheet" href="App/Views/css/style.css">
 
 <div class="header">
     <h2>Quản lý Nhân viên</h2>
-    <a href="giaodien.php">Quay lại trang chủ</a>
+    <a href="index.php?controller=Dashboard&action=index" style="color: white; text-decoration: none;">Quay lại trang chủ</a>
 </div>
 
 <div class="container">
 
-    <?php if (!empty($success_msg)): ?>
+    <?php if ($success_msg): ?>
         <div class="alert-success"><?php echo $success_msg; ?></div>
     <?php endif; ?>
-    <?php if (!empty($error_msg)): ?>
+    <?php if ($error_msg): ?>
         <div class="alert-danger"><?php echo $error_msg; ?></div>
     <?php endif; ?>
 
     <!-- Form Thêm / Sửa Nhân viên -->
     <div class="card">
         <h3><?php echo $edit_mode ? "Sửa thông tin nhân viên" : "Thêm nhân viên mới"; ?></h3>
-        <form method="POST" action="index.php?controller=nhanvien">
+        <form method="POST" action="index.php?controller=NhanVien&action=index">
             <input type="hidden" name="action" value="<?php echo $edit_mode ? "update" : "add"; ?>">
             <?php if ($edit_mode): ?>
                 <input type="hidden" name="manhanvien" value="<?php echo $edit_nv['manhanvien']; ?>">
@@ -91,21 +87,23 @@
 
             <button type="submit"><?php echo $edit_mode ? "Cập nhật" : "Thêm mới"; ?></button>
             <?php if ($edit_mode): ?>
-                <a href="index.php?controller=nhanvien" style="margin-left: 10px; color: #6c757d; text-decoration: none; padding: 10px 15px; display: inline-block;">Hủy</a>
+                <a href="index.php?controller=NhanVien&action=index" style="margin-left: 10px; color: #6c757d; text-decoration: none; padding: 10px 15px; display: inline-block;">Hủy</a>
             <?php endif; ?>
         </form>
     </div>
 
     <!-- Danh sách nhân viên và Tìm kiếm -->
-    <div class="card">
+    <div class="card" style="margin-top: 30px;">
         <h3>Danh sách nhân viên</h3>
         
+        <!-- Form Tìm kiếm -->
         <form method="GET" action="index.php" class="search-box">
-            <input type="hidden" name="controller" value="nhanvien">
+            <input type="hidden" name="controller" value="NhanVien">
+            <input type="hidden" name="action" value="index">
             <input type="text" name="search" placeholder="Nhập họ tên nhân viên cần tìm..." value="<?php echo htmlspecialchars($search_keyword); ?>">
             <button type="submit" class="btn-search">Tìm kiếm</button>
             <?php if (!empty($search_keyword)): ?>
-                <a href="index.php?controller=nhanvien" style="background: #6c757d; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center;">Làm mới</a>
+                <a href="index.php?controller=NhanVien&action=index" style="background: #6c757d; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center;">Làm mới</a>
             <?php endif; ?>
         </form>
 
@@ -136,8 +134,8 @@
                             <td><?php echo htmlspecialchars($nv['tenphong'] ?? 'Chưa phân bổ'); ?></td>
                             <td><?php echo htmlspecialchars($nv['username'] ?? ''); ?></td>
                             <td>
-                                <a href="index.php?controller=nhanvien&edit=<?php echo $nv['manhanvien']; ?>" class="btn-edit">Sửa</a>
-                                <a href="index.php?controller=nhanvien&delete=<?php echo $nv['manhanvien']; ?>" class="btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?');">Xóa</a>
+                                <a href="index.php?controller=NhanVien&action=index&edit=<?php echo $nv['manhanvien']; ?>" class="btn-edit" style="color: #333; text-decoration: none; margin-right: 10px;">Sửa</a>
+                                <a href="index.php?controller=NhanVien&action=index&delete=<?php echo $nv['manhanvien']; ?>" class="btn-delete" style="color: white; text-decoration: none;" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?');">Xóa</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -151,6 +149,3 @@
     </div>
 
 </div>
-
-</body>
-</html>
