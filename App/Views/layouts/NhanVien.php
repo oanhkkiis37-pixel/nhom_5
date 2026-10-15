@@ -46,10 +46,10 @@
                     <input type="date" name="ngaysinh" value="<?php echo htmlspecialchars($edit_nv['ngaysinh'] ?? ''); ?>">
                 </div>
 
-                <div class="form-group">
-                    <label>Số điện thoại:</label>
-                    <input type="text" name="sdt" value="<?php echo htmlspecialchars($edit_nv['sdt'] ?? ''); ?>">
-                </div>
+              <div class="form-group">
+    <label>Số điện thoại:</label>
+    <input type="tel" name="sdt" pattern="0[0-9]{9}" maxlength="10" title="Số điện thoại phải bao gồm đúng 10 chữ số và bắt đầu bằng số 0" value="<?php echo htmlspecialchars($edit_nv['sdt'] ?? ''); ?>" placeholder="Ví dụ: 0912345678">
+</div>
 
                 <div class="form-group">
                     <label>Chức vụ:</label>

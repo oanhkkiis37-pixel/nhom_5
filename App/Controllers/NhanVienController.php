@@ -45,9 +45,14 @@ class NhanVienController {
                     'username' => trim($_POST["username"]),
                     'password' => trim($_POST["password"])
                 ];
-                $ngaysinh = $data['ngaysinh'];
-                if (!empty($ngaysinh)) {
-                    $parts = explode('-', $ngaysinh);
+
+                // 1. Kiểm tra thông tin bắt buộc
+                if (empty($data['hovaten']) || empty($data['username']) || empty($data['password'])) {
+                    $error_msg = "Vui lòng điền đầy đủ các thông tin bắt buộc (Họ tên, Username, Password)!";
+                }
+                // 2. Kiểm tra tính hợp lệ của Ngày sinh
+                elseif (!empty($data['ngaysinh'])) {
+                    $parts = explode('-', $data['ngaysinh']);
                     if (count($parts) === 3) {
                         $nam = intval($parts[0]);
                         $thang = intval($parts[1]);
@@ -55,27 +60,30 @@ class NhanVienController {
 
                         if (!checkdate($thang, $ngay, $nam)) {
                             $error_msg = "Ngày sinh không hợp lệ trên thực tế (sai ngày trong tháng)!";
-                        } elseif (strtotime($ngaysinh) > time()) {
+                        } elseif (strtotime($data['ngaysinh']) > time()) {
                             $error_msg = "Ngày sinh không được lớn hơn ngày hiện tại!";
                         }
                     } else {
                         $error_msg = "Định dạng ngày sinh không đúng!";
                     }
                 }
-                if (!empty($data['hovaten']) && !empty($data['username']) && !empty($data['password'])) {
-                    // Sửa thành $this->nvModel thay vì $nhanVienModel
-                    if ($this->nvModel->getByUsername($data['username'])) {
-                        $error_msg = "Tên đăng nhập (Username) này đã tồn tại. Vui lòng chọn tên khác!";
-                    } else {
-                        if ($this->nvModel->add($data)) {
-                            $success_msg = "Thêm nhân viên thành công!";
-                        } else {
-                            $error_msg = "Lỗi khi thêm nhân viên!";
-                        }
-                    }
-                } else {
-                    $error_msg = "Vui lòng điền đầy đủ các thông tin bắt buộc (Họ tên, Username, Password)!";
+
+                // 3. Kiểm tra trùng lặp Username
+                if (empty($error_msg) && $this->nvModel->getByUsername($data['username'])) {
+                    $error_msg = "Tên đăng nhập (Username) này đã tồn tại. Vui lòng chọn tên khác!";
                 }
+
+                // 4. Nếu KHÔNG CÓ LỖI, tiến hành thêm mới vào Database
+                if (empty($error_msg)) {
+                    if ($this->nvModel->add($data)) {
+                        $success_msg = "Thêm nhân viên thành công!";
+                    } else {
+                        $error_msg = "Lỗi khi thêm nhân viên vào cơ sở dữ liệu!";
+                    }
+                }
+            } 
+            elseif ($action === "update") {
+                // ... (phần xử lý update giữ nguyên như cũ của bạn)
             } elseif ($action === "update") {
                 $data = [
                     'manhanvien' => intval($_POST["manhanvien"]),
@@ -88,23 +96,7 @@ class NhanVienController {
                     'username' => trim($_POST["username"]),
                     'password' => trim($_POST["password"])
                 ];
-                $ngaysinh = $data['ngaysinh'];
-                if (!empty($ngaysinh)) {
-                    $parts = explode('-', $ngaysinh);
-                    if (count($parts) === 3) {
-                        $nam = intval($parts[0]);
-                        $thang = intval($parts[1]);
-                        $ngay = intval($parts[2]);
-
-                        if (!checkdate($thang, $ngay, $nam)) {
-                            $error_msg = "Ngày sinh không hợp lệ trên thực tế (sai ngày trong tháng)!";
-                        } elseif (strtotime($ngaysinh) > time()) {
-                            $error_msg = "Ngày sinh không được lớn hơn ngày hiện tại!";
-                        }
-                    } else {
-                        $error_msg = "Định dạng ngày sinh không đúng!";
-                    }
-                }
+                
 
                 if (!empty($data['hovaten']) && $data['manhanvien'] > 0) {
                     if ($this->nvModel->update($data)) {
@@ -116,7 +108,7 @@ class NhanVienController {
                     $error_msg = "Dữ liệu không hợp lệ!";
                 }
             }
-        } // Dấu ngoặc đóng của $_SERVER["REQUEST_METHOD"] === "POST" đã đặt đúng vị trí ở đây
+        } 
 
         // Xử lý Xóa
         if (isset($_GET["delete"])) {
