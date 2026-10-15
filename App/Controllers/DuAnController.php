@@ -1,7 +1,7 @@
 <?php
 class DuAnController {
     private $duanModel;
-  public function __construct() {
+public function __construct() {
     $database = new db(); // Khởi tạo trực tiếp đối tượng chứa pdo trong model/database của bạn
     $this->duanModel = new DuAnModel($database->pdo);
    

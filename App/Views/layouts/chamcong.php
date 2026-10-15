@@ -1,5 +1,14 @@
 <?php
 require_once __DIR__ . '/../header.php';
+/** @var string $success_msg */
+/** @var string $error_msg */
+/** @var bool $edit_mode */
+/** @var array $edit_cc */
+/** @var array $danhsach_nv */
+/** @var string $search_keyword */
+/** @var array $danhsach_cc */
+?>
+require_once __DIR__ . '/../header.php';
 ?>
 <link rel="stylesheet" href="App/Views/css/style.css">
 

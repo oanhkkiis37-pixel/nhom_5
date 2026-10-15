@@ -7,7 +7,7 @@
  * @var array $danhsach_da
  * @var string $search_keyword
  */
-require_once __DIR__ . '/layouts/header.php';
+
 ?>
 <link rel="stylesheet" href="App/Views/css/style.css">
 
